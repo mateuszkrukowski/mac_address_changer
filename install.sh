@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 #Run with 'source' command
 python3 -m venv env
 source env/bin/activate 
