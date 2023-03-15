@@ -50,6 +50,6 @@ subprocess.call(["sudo", "ifconfig", str(internet_interface), "up"])
 subprocess.call(["ifconfig", str(internet_interface)])
 set_new_mac_address = get_mac_address(interface=internet_interface) 
 if str(old_mac_address)!=str(set_new_mac_address):
-        print (colored(f'Succesfully changed MAC address for {internet_interface} interface.','green'))
+        print (colored(f'Successfully changed MAC address for {internet_interface} interface !','green'))
 else:
     print(colored(f'MAC address for {internet_interface} interface was not changed !!!','red'))
