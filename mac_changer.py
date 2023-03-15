@@ -1,5 +1,8 @@
+from getmac import get_mac_address
+from termcolor import colored
 import subprocess
 import random
+
 
 prefixes = [
     '00:60:17:',
@@ -38,9 +41,15 @@ formatted_new_mac_address = str(formatted_prefix) + formatted_new_mac_address
 
 subprocess.run('ifconfig')
 internet_interface = input('Which inferace address should be changed ? ')
+old_mac_address = get_mac_address(interface=internet_interface)
 subprocess.call(["sudo", "ifconfig", str(internet_interface), "down"])
 subprocess.call(
     ["sudo", "ifconfig", str(internet_interface), "hw", "ether", str(formatted_new_mac_address)]
 )
 subprocess.call(["sudo", "ifconfig", str(internet_interface), "up"])
 subprocess.call(["ifconfig", str(internet_interface)])
+set_new_mac_address = get_mac_address(interface=internet_interface) 
+if str(old_mac_address)!=str(set_new_mac_address):
+        print (colored(f'Succesfully changed MAC address for {internet_interface} interface.','green'))
+else:
+    print(colored(f'MAC address for {internet_interface} interface was not changed !!!','red'))
