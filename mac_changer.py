@@ -2,26 +2,13 @@ from getmac import get_mac_address
 from termcolor import colored
 import subprocess
 import random
+import logging
+
+from vendor_module import formated_prefix_and_vendor
 
 
-prefixes = [
-    '00:60:17:',
-    '00:60:18:',
-    '00:60:19:',
-    '00:60:1A:',
-    '00:60:1B:',
-    '00:60:1C:',
-    '00:60:1D:',
-    '00:60:1E:',
-    '00:60:1F:',
-    '00:60:20:',
-    '00:60:21:',
-    '00:60:22:',
-    '00:60:23:',
-    '00:60:24:',
-    '00:60:25:',
-    '00:60:26:',
-]
+prefix, vendor = formated_prefix_and_vendor()
+
 digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 new_mac_address = []
 identification_number = []
@@ -35,9 +22,7 @@ for i in range(3):
     identification_number.clear()
 
 formatted_new_mac_address = ':'.join(new_mac_address)
-random.shuffle(prefixes)
-formatted_prefix = prefixes[random.randint(0, (len(prefixes) - 1))]
-formatted_new_mac_address = str(formatted_prefix) + formatted_new_mac_address
+formatted_new_mac_address = prefix + formatted_new_mac_address
 
 subprocess.run('ifconfig')
 internet_interface = input('Which inferace address should be changed ? ')
@@ -48,8 +33,12 @@ subprocess.call(
 )
 subprocess.call(["sudo", "ifconfig", str(internet_interface), "up"])
 subprocess.call(["ifconfig", str(internet_interface)])
-set_new_mac_address = get_mac_address(interface=internet_interface) 
-if str(old_mac_address)!=str(set_new_mac_address):
-        print (colored(f'Successfully changed MAC address for {internet_interface} interface !','green'))
+set_new_mac_address = get_mac_address(interface=internet_interface)
+if str(old_mac_address) != str(set_new_mac_address):
+    print(
+        colored(f'Successfully changed MAC address for {internet_interface} interface !', 'green')
+    )
+    logging.info(f'Successfully changed MAC address for {internet_interface} interface')
 else:
-    print(colored(f'MAC address for {internet_interface} interface was not changed !!!','red'))
+    print(colored(f'MAC address for {internet_interface} interface was not changed !!!', 'red'))
+    logging.critical(f'MAC address for {internet_interface} interface was not changed')
