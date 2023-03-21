@@ -1,9 +1,17 @@
 import random
+import logging
+import sys
 
 
 def open_file_and_prepare_list():
-    imported_vendors = open("vendors.txt", "r")
+    vendors_file = 'vendors.txt'
 
+    try:
+        imported_vendors = open(vendors_file, "r")
+        pass
+    except OSError:
+        print(f"Couldn't open or read file {vendors_file}")
+        sys.exit(1)
     not_formated_vendors_list = imported_vendors.read()
 
     formated_vendors_list = not_formated_vendors_list.split('\n')
@@ -33,6 +41,6 @@ def formated_prefix_and_vendor():
 
     prefix = ':'.join(prefix[i : i + 2] for i in range(0, len(prefix), 2)) + ':'
 
-    return prefix, vendor 
+    return prefix, vendor
     print(prefix)
     print(vendor)
