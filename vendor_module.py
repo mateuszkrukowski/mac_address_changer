@@ -42,5 +42,3 @@ def formated_prefix_and_vendor():
     prefix = ':'.join(prefix[i : i + 2] for i in range(0, len(prefix), 2)) + ':'
 
     return prefix, vendor
-    print(prefix)
-    print(vendor)
